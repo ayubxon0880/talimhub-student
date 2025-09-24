@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "../../api/axios.tsx";
 import Select from "react-select";
+import API from "../../api/axios.tsx";
 
 interface TopicDTO {
     id: number;
@@ -37,7 +37,7 @@ const TopicSection: React.FC<TopicSectionProps> = ({setTopic2}) => {
         setTopic(null);
 
         try {
-            const response = await axios.get<TopicDTO>(`/topic/random?part=${part.value}`);
+            const response = await API.get<TopicDTO>(`/topic/random?part=${part.value}`);
             if (!response.data) {
                 setError("Hech qanday ma'lumot topilmadi ❌");
                 return;
