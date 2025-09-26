@@ -17,7 +17,7 @@ const Header: React.FC = () => {
   const links = [
     { to: "/", label: "Bosh sahifa" },
     { to: "/speaking", label: "Speakings" },
-    { to: "/take-exam", label: "Speaking qilish" },
+    { to: "/take-exam", label: "Speaking test" },
     { to: "/profile", label: "Profile" }, 
   ];
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import API from "../../api/axios"; // axios instansiyasi
+import API, {API_URL} from "../../api/axios";
 import { LoadingSpinner } from "../../utils";
 import type { Speaking, Grade, SpeakingResponse } from "../../types/common";
 
@@ -11,7 +11,6 @@ const SingleSpeaking: React.FC = () => {
   const [liked, setLiked] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Speaking ma'lumotlarini olish
   const fetchSpeaking = async () => {
     setLoading(true);
     try {
@@ -35,7 +34,6 @@ const SingleSpeaking: React.FC = () => {
     if (id) fetchSpeaking();
   }, [id]);
 
-  // Like qilish funksiyasi
   const handleLike = async (speakingId: number) => {
     try {
       await API.post(
@@ -67,22 +65,41 @@ const SingleSpeaking: React.FC = () => {
       </h1>
 
       <div className="space-y-6">
-        {/* Topic */}
-        <div className="p-4 bg-gray-50 rounded-lg border">
-          <h2 className="text-xl font-semibold text-gray-700 mb-2">
-            Part {speaking.speakingType}
-          </h2>
-          <ul className="list-disc list-inside text-gray-600 space-y-1">
-            {speaking.topic.topic.split("|").map((q, i) => (
-              <li key={i} className="text-lg">
-                {q}
-              </li>
-            ))}
-          </ul>
-        </div>
+          <div className="p-4 bg-gray-50 rounded-lg border">
+              <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                  Part {speaking.speakingType}
+              </h2>
 
-        {/* User info and likes */}
-        <div className="flex items-center justify-between bg-gray-100 p-4 rounded-lg">
+              {(speaking.topic.image1 || speaking.topic.image2) && (
+                  <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                      {speaking.topic.image1 && (
+                          <img
+                              src={speaking.topic.image1}
+                              alt="Topic Image 1"
+                              className="w-full sm:w-1/2 h-48 object-cover rounded-md shadow"
+                          />
+                      )}
+                      {speaking.topic.image2 && (
+                          <img
+                              src={speaking.topic.image2}
+                              alt="Topic Image 2"
+                              className="w-full sm:w-1/2 h-48 object-cover rounded-md shadow"
+                          />
+                      )}
+                  </div>
+              )}
+
+              <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  {speaking.topic.topic.split("|").map((q, i) => (
+                      <li key={i} className="text-lg">
+                          {q.trim()}
+                      </li>
+                  ))}
+              </ul>
+          </div>
+
+
+          <div className="flex items-center justify-between bg-gray-100 p-4 rounded-lg">
           <Link
             to={`/user-detail/${speaking.userDTOSpeaking.id}`}
             className="text-blue-600 hover:underline font-medium"
@@ -92,18 +109,16 @@ const SingleSpeaking: React.FC = () => {
           <span className="text-gray-600">❤️ {speaking.likes} likes</span>
         </div>
 
-        {/* Audio */}
         <div className="bg-gray-50 p-4 rounded-lg">
           <audio controls className="w-full rounded-lg border">
             <source
-              src={`/audio/${speaking.audioUrl}`} // agar backend baseURL bilan axios ishlatayotgan bo‘lsa
+              src={`${API_URL}/audio/${speaking.audioUrl}`}
               type="audio/mp3"
             />
             Your browser does not support the audio element.
           </audio>
         </div>
 
-        {/* Buttons */}
         <div className="flex justify-end gap-3">
           <button
             onClick={() => handleLike(speaking.id)}
@@ -128,7 +143,6 @@ const SingleSpeaking: React.FC = () => {
         </div>
       </div>
 
-      {/* Grade info */}
       {grade && (
         <div className="mt-8 p-4 bg-green-50 rounded-lg border">
           <h3 className="text-xl font-semibold text-gray-700 mb-2">✅ Baholash</h3>

@@ -145,7 +145,7 @@ const Speakings: React.FC = () => {
           <LoadingSpinner text="Yuklanmoqda..." />
         </div>
       ) : speakings.length === 0 ? (
-        <p className="text-gray-500 text-lg text-center">Bu oyda speaking qilmagansiz </p>
+        <p className="text-gray-500 text-lg text-center">Bu oyda speaking bo'lmagan </p>
       ) : (
         speakings.map((speaking) => (
           <div

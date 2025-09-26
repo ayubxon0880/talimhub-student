@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import {  lazy } from "react";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
-// import {LoadingSpinner} from "../utils/index";
 
 const Login = lazy(() => import("../pages/login/AuthLogin"));
 const Home = lazy(() => import("../pages/Home/Home"));
@@ -14,10 +13,6 @@ const SpeakingDetail = lazy(() => import("../pages/speaking/SingleSpeaking"));
 const UserDetail = lazy(() => import("../pages/UserDetail"));
 const Likes = lazy(() => import("../pages/Likes"));
 const TeamPage = lazy(() => import("../pages/Team"));
-
-
-
-
 
 const AppRoutes = () => {
   return (
@@ -41,6 +36,7 @@ const AppRoutes = () => {
           <Route path="take-exam" element={<TakeExam />} />
           <Route path="speaking/:id" element={<SpeakingDetail />} />
           <Route path="user-detail/:id" element={<UserDetail />} />
+          <Route path="user-speaking/:id" element={<MySpeaking />} />
           <Route path="likes" element={<Likes />} />
           <Route path="team" element={<TeamPage />} />
         </Route>

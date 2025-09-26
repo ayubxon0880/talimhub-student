@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import API from "../../api/axios";
 import { LoadingSpinner } from "../../utils";
 import { useParams, Link } from "react-router-dom";
 
-// --- Typelar ---
 interface TopicDTO {
   id: number;
   topic: string;
@@ -41,8 +39,8 @@ const Speaking: React.FC = () => {
   const fetchSpeakings = async (page: number, pageSize: number) => {
     setLoading(true);
     try {
-      const response = await axios.get<SpeakingResponse>(
-        `${API}/speaking/my-speakings?userId=${id}&page=${page}&size=${pageSize}&sorted=true`
+      const response = await API.get<SpeakingResponse>(
+        `/speaking/my-speakings?userId=${id}&page=${page}&size=${pageSize}&sorted=true`
       );
       setSpeakings(response.data.speakings);
       setTotalPages(response.data.totalPages);
@@ -64,12 +62,9 @@ const Speaking: React.FC = () => {
 
   const handleLike = async (speakingId: number) => {
     try {
-      await axios.post(
-        `${API}/speaking/like?speakingId=${speakingId}`,
+      await API.post(
+        `/speaking/like?speakingId=${speakingId}`,
         {},
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
       );
       setSpeakings((prevSpeakings) =>
         prevSpeakings.map((speaking) =>

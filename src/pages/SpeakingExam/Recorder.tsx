@@ -3,10 +3,9 @@ import {useEffect, useRef, useState} from "react";
 type RecorderProps = {
     duration?: number;
     onComplete?: (blob: Blob) => void;
-    takeExam?: () => void;
 };
 
-export default function Recorder({duration, onComplete, takeExam}: RecorderProps) {
+export default function Recorder({duration, onComplete}: RecorderProps) {
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const [recording, setRecording] = useState(false);
     const [permissionGranted, setPermissionGranted] = useState<boolean | null>(null);
@@ -130,7 +129,6 @@ export default function Recorder({duration, onComplete, takeExam}: RecorderProps
                 {
                     audioUrl &&
                     <button
-                        onClick={takeExam}
                         className={`px-3 py-2 rounded-md text-white ${!audioUrl ? "bg-gray-400" : "bg-purple-600 hover:bg-purple-700"}`}>
                         Yuborish
                     </button>
