@@ -8,7 +8,7 @@ const Layout = lazy(() => import("../pages/Layout/layout"));
 const Profile = lazy(() => import("../pages/profile/Profile"));
 const Speakings = lazy(() => import("../pages/speaking/Speakings"));
 const MySpeaking = lazy(() => import("../pages/speaking/MySpeaking"));
-const TakeExam = lazy(() => import("../pages/SpeakingExam/Take-Exam"));
+const TakeExam = lazy(() => import("../pages/SpeakingExam/SpeakingTest.tsx"));
 const SpeakingDetail = lazy(() => import("../pages/speaking/SingleSpeaking"));
 const UserDetail = lazy(() => import("../pages/UserDetail"));
 const Likes = lazy(() => import("../pages/Likes"));

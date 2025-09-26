@@ -1,7 +1,7 @@
 import API from "../api/axios.tsx";
 import type { TopicDTO } from "./models.tsx";
 
-export const handleUpload = async (file: File | null): Promise<string | null> => {
+export const handleUpload = async (file: Blob | null): Promise<string | null> => {
     if (!file) {
         return null;
     }

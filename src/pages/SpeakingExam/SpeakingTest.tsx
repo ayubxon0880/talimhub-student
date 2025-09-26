@@ -12,7 +12,7 @@ const parts = [
     { value: "1", label: "Part 3" }
 ];
 
-const AudioRecorder: React.FC = () => {
+const SpeakingTest: React.FC = () => {
     const [part, setPart] = useState<any>(null);
     const [topic, setTopic] = useState<TopicDTO | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
@@ -81,4 +81,4 @@ const AudioRecorder: React.FC = () => {
     );
 };
 
-export default AudioRecorder;
+export default SpeakingTest;
