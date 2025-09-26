@@ -21,7 +21,8 @@ interface IntroductionPageProps {
 }
 
 const IntroductionPage: React.FC<IntroductionPageProps> = ({ setFalse }) => {
-    const text = "Welcome to the Speaking Practice App! \nHere you can train your English skills with topics, images and speaking tasks.";
+    const text =
+        "In Part 1, you will be given 30 seconds to prepare and 90 seconds to speak. During this time, you will look at a picture, describe it, and answer the related questions.";
     const displayedText = useTypingEffect(text, 40);
 
     const speakText = () => {
@@ -35,8 +36,7 @@ const IntroductionPage: React.FC<IntroductionPageProps> = ({ setFalse }) => {
     };
 
     return (
-        <div
-            className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center p-6">
+        <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center p-6">
             <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8 text-center space-y-6">
                 <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800">
                     Speaking Practice 🎤
@@ -46,19 +46,22 @@ const IntroductionPage: React.FC<IntroductionPageProps> = ({ setFalse }) => {
                     {displayedText}
                 </p>
 
-                <button
-                    onClick={speakText}
-                    className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold shadow hover:bg-blue-700 transition"
-                >
-                    🔊 Read Aloud
-                </button>
+                {/* Buttonlar yonma-yon joylashdi */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button
+                        onClick={speakText}
+                        className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold shadow hover:bg-blue-700 transition"
+                    >
+                        🔊 Read Aloud
+                    </button>
 
-                <button
-                    onClick={setFalse}
-                    className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold shadow hover:bg-blue-700 transition"
-                >
-                    Start Test
-                </button>
+                    <button
+                        onClick={setFalse}
+                        className="flex-1 px-6 py-3 bg-green-600 text-white rounded-xl font-semibold shadow hover:bg-green-700 transition"
+                    >
+                        🚀 Start Test
+                    </button>
+                </div>
             </div>
         </div>
     );
