@@ -1,15 +1,15 @@
 // Part1.tsx
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Countdown from "../Countdown.tsx";
 import Recorder from "../Recorder.tsx";
-import type { TopicDTO } from "../../../services/models.tsx";
+import type {TopicDTO} from "../../../services/models.tsx";
 
 interface PartProps {
     topic: TopicDTO;
     setAudioFile: (audioBlob: Blob) => void;
 }
 
-const Part1: React.FC<PartProps> = ({ topic, setAudioFile }) => {
+const Part1: React.FC<PartProps> = ({topic, setAudioFile}) => {
     const [countdownEnd, setCountdownEnd] = useState(false);
     const questions = topic.topic.split("|");
 
@@ -48,14 +48,14 @@ const Part1: React.FC<PartProps> = ({ topic, setAudioFile }) => {
             </div>
 
             <div className="flex flex-col items-center w-full">
-                <Countdown
+                {!countdownEnd && <Countdown
                     seconds={30}
                     onComplete={() => setCountdownEnd(true)}
-                />
+                />}
 
                 {countdownEnd && (
                     <div className="mt-6 w-full">
-                        <Recorder onComplete={setAudioFile} duration={60} />
+                        <Recorder onComplete={setAudioFile} duration={60}/>
                     </div>
                 )}
             </div>

@@ -1,39 +1,75 @@
-// AudioRecorder.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getRandomTopic, handleUpload } from "../../services/takeExam.tsx";
 import API from "../../api/axios.tsx";
 import Select from "react-select";
 import type { TopicDTO } from "../../services/models.tsx";
 import Part1 from "./parts/Part1.tsx";
+import { LoadingSpinner } from "../../utils";
+import { useNavigate } from "react-router-dom";
+import IntroductionPage from "./Introduction.tsx";
 
 const parts = [
     { value: "1", label: "Part 1" },
-    { value: "1", label: "Part 2" },
-    { value: "1", label: "Part 3" }
+    { value: "2", label: "Part 2" },
+    { value: "3", label: "Part 3" },
 ];
 
 const SpeakingTest: React.FC = () => {
+    const [introductionOpen, setIntroductionOpen] = useState<boolean>(
+        !localStorage.getItem("introduction") // faqat birinchi kirishda true
+    );
     const [part, setPart] = useState<any>(null);
     const [topic, setTopic] = useState<TopicDTO | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const [showIntroBtn, setShowIntroBtn] = useState<boolean>(true);
+    const navigate = useNavigate();
 
     const takeExam = async (audio: Blob) => {
         setLoading(true);
-        const audioUrl = await handleUpload(audio);
-        const response = await API.post("/speaking/save", {
-            topicId: topic?.id,
-            audioUrl,
-        });
-        console.log(response.data);
-        setLoading(false);
+        try {
+            const audioUrl = await handleUpload(audio);
+            const response = await API.post("/speaking/save", {
+                topicId: topic?.id,
+                audioUrl,
+            });
+            console.log(response.data);
+            navigate(`/speaking/${response.data.id}`);
+        } finally {
+            setLoading(false);
+        }
     };
 
+    useEffect(() => {
+        const timer = setTimeout(() => setShowIntroBtn(false), 10000);
+        return () => clearTimeout(timer);
+    }, []);
+
+    const closeIntro = () => {
+        setIntroductionOpen(false);
+        localStorage.setItem("introduction", "true");
+    };
+
+    if (introductionOpen) {
+        return <IntroductionPage setFalse={closeIntro} />;
+    }
+
     return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6 relative">
+            {showIntroBtn && (
+                <button
+                    onClick={() => setIntroductionOpen(true)}
+                    className="absolute top-4 right-4 bg-blue-500 text-white text-sm px-3 py-1 rounded-md shadow hover:bg-blue-600 transition"
+                >
+                    Show Intro
+                </button>
+            )}
+
             <div className="bg-white shadow-2xl rounded-2xl w-full max-w-2xl p-8">
                 {!topic && (
                     <div className="space-y-6 text-center">
-                        <h1 className="text-2xl font-bold text-gray-800">Start Speaking Test</h1>
+                        <h1 className="text-2xl font-bold text-gray-800">
+                            Start Speaking Test
+                        </h1>
                         <p className="text-gray-600">Choose a part to get a random topic</p>
 
                         <Select
@@ -76,6 +112,13 @@ const SpeakingTest: React.FC = () => {
                 )}
 
                 {topic && <Part1 topic={topic} setAudioFile={takeExam} />}
+
+                {topic && loading && (
+                    <div className="mt-6 text-center">
+                        <h1 className="text-lg font-semibold text-gray-700">Saqlanmoqda...</h1>
+                        <LoadingSpinner />
+                    </div>
+                )}
             </div>
         </div>
     );
